@@ -1,5 +1,8 @@
 {
     "cSpell.words": [
         "kreuzwerker"
+    ],
+    "conventionalCommits.scopes": [
+        "docker pull + k8s deploy"
     ]
 }

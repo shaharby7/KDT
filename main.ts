@@ -1,16 +1,13 @@
 import { Construct } from "constructs";
 import { App, TerraformStack } from "cdktf";
 
-import {
-  KubernetesProvider,
-  Deployment,
-  Service,
-  Namespace,
-} from "./.gen/providers/kubernetes";
-import { Image, DockerProvider } from "./.gen/providers/docker";
+import { KubernetesProvider, Namespace } from "./.gen/providers/kubernetes";
+import { DockerProvider } from "./.gen/providers/docker";
 
-import { env, loadEnv } from "./env";
+import { loadEnv, env } from "./env";
 import { environments } from "./environments.enum";
+
+import { KaspaNetComponent } from "./custom-constructs";
 
 loadEnv();
 interface IKaspaStackConfig {
@@ -37,78 +34,23 @@ class KaspaStack extends TerraformStack {
       ],
     });
 
-    const componentName = "my-dummy-server";
-    const dockerImageName = `${env.docker_user}/${componentName}:latest`;
-
-    new Image(this, `${componentName}-image`, {
-      name: dockerImageName,
-      keepLocally: true,
-    });
-
     new Namespace(this, "environment-namespace", {
       metadata: {
         name: config.environment,
       },
     });
 
-    new Deployment(this, `${componentName}-deployment`, {
-      metadata: {
-        name: componentName,
-        labels: {
-          app: componentName,
-        },
-        namespace: config.environment,
-      },
-      spec: {
-        replicas: 2,
-        selector: {
-          matchLabels: {
-            app: componentName,
-          },
-        },
-        template: {
-          metadata: {
-            labels: {
-              app: componentName,
-            },
-          },
-          spec: {
-            container: [
-              {
-                image: dockerImageName,
-                name: componentName,
-                port: [
-                  {
-                    containerPort: 3010,
-                  },
-                ],
-              },
-            ],
-          },
-        },
-      },
+    new KaspaNetComponent(this, {
+      name: "my-dummy-server",
+      replicas: 1,
+      namespace: config.environment,
+      port: 80,
     });
-
-    new Service(this, `${componentName}-service`, {
-      metadata: {
-        name: componentName,
-        labels: {
-          app: componentName,
-        },
-        namespace: config.environment,
-      },
-      spec: {
-        selector: {
-          app: componentName,
-        },
-        port: [
-          {
-            port: 80,
-            targetPort: "3010",
-          },
-        ],
-        type: "LoadBalancer",
-      },
+    new KaspaNetComponent(this, {
+      name: "hello",
+      replicas: 2,
+      namespace: config.environment,
+      port: 81,
     });
   }
 }
