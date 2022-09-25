@@ -4,8 +4,8 @@ import { App, TerraformStack } from "cdktf";
 import { KubernetesProvider, Namespace } from "./.gen/providers/kubernetes";
 import { DockerProvider } from "./.gen/providers/docker";
 
-import { loadEnv, env } from "./env";
-import { environments } from "./environments.enum";
+import { loadEnv, env } from "../env";
+import { environments } from "../environments.enum";
 
 import { KaspaNetComponent } from "./custom-constructs";
 

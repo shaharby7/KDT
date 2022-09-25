@@ -2,7 +2,7 @@ import { Construct } from "constructs";
 import { Deployment, Service } from "../../.gen/providers/kubernetes";
 import { Image } from "../../.gen/providers/docker";
 
-import { env } from "../../env";
+import { env } from "../../../env";
 export type KaspaNetComponentConfig = {
   name: string;
   replicas: number;

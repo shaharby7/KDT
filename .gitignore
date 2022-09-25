@@ -10,3 +10,5 @@ tsconfig.tsbuildinfo
 !jest.config.js
 !setup.js
 *.env
+kaspa-repos/*
+!**/*.gitkeep

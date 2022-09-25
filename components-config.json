@@ -1,0 +1,24 @@
+[
+    {
+        "name": "kaspad",
+        "git": "https://github.com/kaspanet/kaspad.git",
+        "Dockerfile": "docker/Dockerfile",
+        "environments": {
+            "local": {
+                "default": true,
+                "branch": "master"
+            }
+        }
+    },
+    {
+        "name": "dnsseeder",
+        "git": "https://github.com/kaspanet/dnsseeder.git",
+        "Dockerfile": "docker/Dockerfile",
+        "environments": {
+            "local": {
+                "default": true,
+                "branch": "master"
+            }
+        }
+    }
+]

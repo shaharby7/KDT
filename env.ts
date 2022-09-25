@@ -10,5 +10,5 @@ export const schema = {
 export let env: Env;
 
 export function loadEnv(): void {
-  env = load(schema);
+  env = load(schema, __dirname + "/.env");
 }

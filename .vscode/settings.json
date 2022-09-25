@@ -1,8 +1,10 @@
 {
-    "cSpell.words": [
-        "kreuzwerker"
-    ],
-    "conventionalCommits.scopes": [
-        "docker pull + k8s deploy"
-    ]
+  "cSpell.words": [
+    "devnet",
+    "dnsseeder",
+    "kaspad",
+    "kreuzwerker"
+  ],
+  "conventionalCommits.scopes": ["docker pull + k8s deploy", "cdktf"],
+  "eslint.workingDirectories": [""]
 }

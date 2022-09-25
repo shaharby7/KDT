@@ -1,26 +1,19 @@
 {
-  "name": "KDT",
+  "name": "kdt",
   "version": "1.0.0",
   "main": "main.js",
   "types": "main.ts",
   "license": "MPL-2.0",
   "private": true,
   "scripts": {
-    "get": "cdktf get",
-    "build": "tsc",
-    "synth": "cdktf synth",
-    "compile": "tsc --pretty",
-    "watch": "tsc -w",
-    "test": "jest",
-    "test:watch": "jest --watch",
-    "upgrade": "npm i cdktf@latest cdktf-cli@latest",
-    "upgrade:next": "npm i cdktf@next cdktf-cli@next"
+    "prepare": "sudo npm i -g cdktf-cli && sudo apt install jq && ./scripts/prepare.sh",
+    "deploy": "./scripts/deploy.sh",
+    "destroy": "./scripts/destroy.sh"
   },
   "engines": {
     "node": ">=14.0"
   },
   "dependencies": {
-    "@cdktf/provider-kubernetes": "^2.0.31",
     "cdktf": "^0.12.2",
     "constructs": "^10.1.111",
     "ts-dotenv": "^0.8.3"
