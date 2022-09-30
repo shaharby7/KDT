@@ -6,7 +6,8 @@
   "license": "MPL-2.0",
   "private": true,
   "scripts": {
-    "prepare": "sudo npm i -g cdktf-cli && sudo apt install jq && ./scripts/prepare.sh",
+    "prepare": "sudo npm i -g cdktf-cli && sudo  apt install jq  && sudo chmod -R +x ./scripts",
+    "set-env": "./scripts/set-env.sh",
     "deploy": "./scripts/deploy.sh",
     "destroy": "./scripts/destroy.sh"
   },

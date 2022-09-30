@@ -5,6 +5,10 @@
     "kaspad",
     "kreuzwerker"
   ],
-  "conventionalCommits.scopes": ["docker pull + k8s deploy", "cdktf"],
+  "conventionalCommits.scopes": [
+    "docker pull + k8s deploy",
+    "cdktf",
+    "boilerplate"
+  ],
   "eslint.workingDirectories": [""]
 }

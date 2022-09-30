@@ -5,13 +5,12 @@ import { KubernetesProvider, Namespace } from "./.gen/providers/kubernetes";
 import { DockerProvider } from "./.gen/providers/docker";
 
 import { loadEnv, env } from "../env";
-import { environments } from "../environments.enum";
 
 import { KaspaNetComponent } from "./custom-constructs";
 
 loadEnv();
 interface IKaspaStackConfig {
-  environment: environments;
+  environment: string;
 }
 
 class KaspaStack extends TerraformStack {
@@ -56,5 +55,5 @@ class KaspaStack extends TerraformStack {
 }
 
 const app = new App();
-new KaspaStack(app, "kaspa-local", { environment: environments.local });
+new KaspaStack(app, "kaspa-local", { environment: "local" });
 app.synth();

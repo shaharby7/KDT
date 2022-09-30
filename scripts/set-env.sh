@@ -12,7 +12,7 @@ function clone_if_not_exist() {
     fi
 }
 
-CONFIG_PATH="$KDT_WORKDIR/components-config.json"
+CONFIG_PATH="$KDT_WORKDIR/config/components-info.json"
 # for each row in the config file
 for row in $(cat $CONFIG_PATH | jq -r '.[] | @base64'); do
     _jq() {
