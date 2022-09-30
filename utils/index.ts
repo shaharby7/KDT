@@ -10,7 +10,7 @@ import fs from "fs";
 import path from "path";
 import { spawn } from "child_process";
 
-const componentsConfigPath = path.resolve("./config/componentsGlobalInfo.json");
+const componentsConfigPath = path.resolve(__dirname, "../config/componentsGlobalInfo.json");
 const componentsConfig: ComponentGlobalInfo[] = JSON.parse(
   fs.readFileSync(componentsConfigPath, "utf-8")
 );
@@ -23,8 +23,10 @@ export const getTarget = (): Targets => {
   return param.split("=")[1] as Targets;
 };
 
-export const getTargetConfig = async (): Promise<TargetConfig> => {
-  const target = getTarget();
+export const getTargetConfig = async (
+  targeName?: string
+): Promise<TargetConfig> => {
+  const target = targeName ? targeName : getTarget();
   const targetConfig = (await import(`../config/targets/${target}`))
     .default as TargetConfig;
   return targetConfig as TargetConfig;

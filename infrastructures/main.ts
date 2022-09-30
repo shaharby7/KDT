@@ -8,19 +8,21 @@ import { loadEnv, env } from "../env";
 
 import { KaspaNetComponent } from "./custom-constructs";
 
+import type { TargetConfig } from "../types/TargetConfig";
+import { Targets } from "../types/Targets.enum";
+import { getTargetConfig } from "../utils";
+
 loadEnv();
-interface IKaspaStackConfig {
-  environment: string;
-}
 
 class KaspaStack extends TerraformStack {
-  constructor(scope: Construct, name: string, config: IKaspaStackConfig) {
+  config: TargetConfig;
+  constructor(scope: Construct, name: string, config: TargetConfig) {
     super(scope, name);
-    console.log(config);
+    this.config = config;
 
     new KubernetesProvider(this, "k8s", {
-      configPath: "~/.kube/config",
-      configContext: "minikube",
+      configPath: config.k8s.kubectl_config_path,
+      configContext: config.k8s.kubectl_config_context,
     });
 
     new DockerProvider(this, "docker", {
@@ -33,27 +35,33 @@ class KaspaStack extends TerraformStack {
       ],
     });
 
-    new Namespace(this, "environment-namespace", {
+    new Namespace(this, "target-namespace", {
       metadata: {
-        name: config.environment,
+        name: name,
       },
     });
 
     new KaspaNetComponent(this, {
       name: "my-dummy-server",
       replicas: 1,
-      namespace: config.environment,
+      namespace: name,
       port: 80,
     });
     new KaspaNetComponent(this, {
       name: "hello",
       replicas: 2,
-      namespace: config.environment,
+      namespace: name,
       port: 81,
     });
   }
 }
 
-const app = new App();
-new KaspaStack(app, "kaspa-local", { environment: "local" });
-app.synth();
+const main = async (): Promise<void> => {
+  const app = new App();
+  for (const target of Object.keys(Targets)) {
+    new KaspaStack(app, target, await getTargetConfig(target));
+  }
+  app.synth();
+};
+
+main();
