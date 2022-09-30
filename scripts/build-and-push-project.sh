@@ -2,7 +2,7 @@
 
 usage() {
     cat <<EOF
-Usage: build [-h] project_name project_path dockerfile_location project_version kaspad_version dockerhub_username dockerhub_password dockerhub_registry extra_build_args
+Usage: build-and-push-project [-h] project_name project_path dockerfile_location project_version kaspad_version dockerhub_username dockerhub_password dockerhub_registry extra_build_args
 
 Script description here.
 
@@ -26,6 +26,8 @@ cd $2
 git fetch
 git checkout -f $4
 docker_image=$6/$1:$4
-docker build -t $docker_image -f $3 . --build-arg KASPAD_VERSION=$4 $9
+command="docker build -t $docker_image -f $3 . --build-arg KASPAD_VERSION=$5 $9"
+echo $command
+eval $command
 docker login -u $6 -p $7 $8
 docker push $docker_image

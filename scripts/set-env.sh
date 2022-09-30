@@ -8,11 +8,11 @@ function clone_if_not_exist() {
     echo $COMPONENT_EXPECTED_DIR
     if [ ! -d $COMPONENT_EXPECTED_DIR ]; then
         cd KASPA_REPOS_DIR
-        sudo -u $USER git clone --depth 1 $2 $COMPONENT_EXPECTED_DIR
+        sudo -u $USER git clone $2 $COMPONENT_EXPECTED_DIR
     fi
 }
 
-CONFIG_PATH="$KDT_WORKDIR/config/components-info.json"
+CONFIG_PATH="$KDT_WORKDIR/config/componentsGlobalInfo.json"
 # for each row in the config file
 for row in $(cat $CONFIG_PATH | jq -r '.[] | @base64'); do
     _jq() {

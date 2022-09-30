@@ -8,7 +8,8 @@
   "conventionalCommits.scopes": [
     "docker pull + k8s deploy",
     "cdktf",
-    "boilerplate"
+    "boilerplate",
+    "build"
   ],
   "eslint.workingDirectories": [""]
 }
