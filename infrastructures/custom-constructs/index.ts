@@ -1,1 +1,0 @@
-export { KaspaNetComponent } from "./KaspaNetComponent";
