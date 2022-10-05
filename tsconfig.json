@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "types": ["node", "jest"],
+    "types": ["node", "jest", "lodash"],
     "incremental": true,
     "target": "es2019",
     "module": "commonjs",

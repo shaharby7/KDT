@@ -2,8 +2,12 @@
   "cSpell.words": [
     "devnet",
     "dnsseeder",
+    "grpcseed",
     "kaspad",
-    "kreuzwerker"
+    "kreuzwerker",
+    "loglevel",
+    "rpclisten",
+    "shaharby"
   ],
   "conventionalCommits.scopes": [
     "docker pull + k8s deploy",

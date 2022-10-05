@@ -1,4 +1,6 @@
 terraform {
+
+  experiments = [module_variable_optional_attrs]
   required_providers {
     kubernetes = {
       source  = "hashicorp/kubernetes"
@@ -6,7 +8,7 @@ terraform {
     }
 
     docker = {
-      source  = "kreuzwerker/docker"
+      source = "kreuzwerker/docker"
     }
   }
 }

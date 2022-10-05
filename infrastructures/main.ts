@@ -6,11 +6,15 @@ import { DockerProvider } from "./.gen/providers/docker";
 
 import { loadEnv, env } from "../env";
 
-import { KaspaNetComponent } from "./custom-constructs";
-
 import type { TargetConfig } from "../types/TargetConfig";
 import { Targets } from "../types/Targets.enum";
 import { getTargetConfig } from "../utils";
+import {
+  generateContainerSpecs,
+  generateServiceSpecPorts,
+  generateVolumeSpecs,
+} from "./utils";
+import { Component } from "./modules/Component";
 
 loadEnv();
 
@@ -41,54 +45,32 @@ class KaspaStack extends TerraformStack {
       },
     });
 
-    const module = new TerraformHclModule(this, "something", {
-      source: "./modules/SomeModule",
-      variables: {
-        target: name,
-        image_name: `${env.docker_user}/${"my-dummy-server"}:latest`,
-        name: "my-dummy-server",
-        port: 5000,
-        replicas: 1,
-      },
-      providers: [k8sProvider, dockerProvider],
-    });
-
-    new TerraformHclModule(this, "something2", {
-      source: "./modules/SomeModule",
-      variables: {
-        target: name,
-        image_name: `${env.docker_user}/${"hello"}:latest`,
-        name: "hello",
-        port: module.getNumber("node_port"),
-        replicas: 1,
-      },
-      providers: [k8sProvider, dockerProvider],
-    });
-
-    // let appliedComponents: { [key: string]: KaspaNetComponent } = {};
-    // for (const component of this.config.components) {
-    //   appliedComponents[component.name] = new KaspaNetComponent(this, {
-    //     name: component.name,
-    //     replicas: 1,
-    //     namespace: name,
-    //     port: 80,
-    //   });
-    //   console.log(appliedComponents["my-dummy-server"].service.spec.port)
-    // }
-    // const mds = new KaspaNetComponent(this, {
-    //   name: "my-dummy-server",
-    //   replicas: 1,
-    //   namespace: name,
-    //   port: 80,
-    // });
-    // const mdsPort = Token.asNumberList(mds.nodePort);
-    // console.log(mdsPort);
-    // new KaspaNetComponent(this, {
-    //   name: "hello",
-    //   replicas: 2,
-    //   namespace: name,
-    //   port: mdsPort[0],
-    // });
+    let appliedComponents: { [key: string]: TerraformHclModule } = {};
+    for (const componentConfig of this.config.components) {
+      const variables = {
+        name: componentConfig.name,
+        namespace: name,
+        replicas: componentConfig.replicas,
+        container_specs: generateContainerSpecs(
+          appliedComponents,
+          componentConfig
+        ),
+        service_ports_specs: generateServiceSpecPorts(
+          appliedComponents,
+          componentConfig
+        ),
+        volume_specs: generateVolumeSpecs(appliedComponents, componentConfig),
+      };
+      appliedComponents[componentConfig.name] = new TerraformHclModule(
+        this,
+        componentConfig.name,
+        {
+          source: "./modules/Component",
+          variables,
+          providers: [k8sProvider, dockerProvider],
+        }
+      );
+    }
   }
 }
 
