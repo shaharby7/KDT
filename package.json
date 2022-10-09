@@ -6,7 +6,7 @@
   "license": "MPL-2.0",
   "private": true,
   "scripts": {
-    "prepare": "sudo npm i -g cdktf-cli && sudo  apt install jq  && sudo chmod -R +x ./scripts && npm run set-env",
+    "prepare": "npm i -g cdktf-cli@0.12.2 && sudo  apt install jq  && chmod -R +x ./scripts && npm run set-env",
     "set-env": "./scripts/set-env.sh",
     "build": "ts-node ./scripts/build.ts -r ./tsconfig.json",
     "deploy": "./scripts/deploy.sh",
