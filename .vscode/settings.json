@@ -13,7 +13,8 @@
     "docker pull + k8s deploy",
     "cdktf",
     "boilerplate",
-    "build"
+    "build",
+    "deploy"
   ],
   "eslint.workingDirectories": [""]
 }
