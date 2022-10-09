@@ -9,7 +9,7 @@ const config: TargetConfig = {
   components: [
     {
       name: "dnsseeder",
-      version: "v0.11.0",
+      version: "60d0172b2537b3715ed0789a939b01b6c2ea9698",
       extra_build_args: {},
       replicas: 1,
       generateContainerConfig: (_others) => {
