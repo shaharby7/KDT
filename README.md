@@ -12,7 +12,7 @@
 npm run prepare
 ```
 
-Installing global dependencies, change permissions and downloads terraform dependencies
+Installing global dependencies, change permissions and downloads terraform dependencies. If you get an `EACCESS` error try to fix it as instructed [here](https://docs.npmjs.com/resolving-eacces-permissions-errors-when-installing-packages-globally).
 
 #### build
 

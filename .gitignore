@@ -10,3 +10,5 @@ tsconfig.tsbuildinfo
 *.env
 kaspa-repos/*
 !**/*.gitkeep
+.vscode
+
