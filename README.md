@@ -41,6 +41,15 @@ Removes all the namespaces, images, deployments and services, as defined at the 
 ## Running locally
 
 To run the deployment locally one should have local kubectl and minikube - a local simulation of k8s. For more details - https://minikube.sigs.k8s.io/docs/start/
+
+To allow mounting to the host with minikube:
+
+```bash
+npm run minikube:mount
+```
+
+The output should be mounted to `$HOME/minikube`
+
 To restart the local cluster and set the terraform state to the beginning one can use:
 
 ```bash

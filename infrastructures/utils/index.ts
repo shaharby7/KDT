@@ -24,7 +24,8 @@ export const generateContainerSpecs = (
 
 export const generateVolumeSpecs = (
   deployedComponents: { [componentName: string]: TerraformHclModule[] },
-  targetComponentConfig: TargetComponentConfig
+  targetComponentConfig: TargetComponentConfig,
+  componentName: string
 ): { name: string; path: string } => {
   const containerConfig =
     targetComponentConfig.generateContainerConfig(deployedComponents);
@@ -32,7 +33,7 @@ export const generateVolumeSpecs = (
   return (containerConfig.volume_mount || []).map(
     (volumeMount: { name: string; mount_path: string }) => ({
       name: volumeMount.name,
-      path: volumeMount.mount_path,
+      path: `/${componentName}${volumeMount.mount_path}`,
     })
   );
 };
@@ -77,7 +78,11 @@ export function generateComponentVariables(
       appliedComponents,
       componentConfig
     ),
-    volume_specs: generateVolumeSpecs(appliedComponents, componentConfig),
+    volume_specs: generateVolumeSpecs(
+      appliedComponents,
+      componentConfig,
+      componentName
+    ),
   };
   return { componentName, variables };
 }

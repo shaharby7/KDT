@@ -3,7 +3,6 @@ resource "docker_image" "image" {
   keep_locally = true
 }
 
-
 resource "kubernetes_deployment" "deployment" {
   metadata {
     name = var.name
@@ -69,7 +68,7 @@ resource "kubernetes_deployment" "deployment" {
             }
           }
         }
-          security_context {
+        security_context {
           run_as_user     = 0 //run as user
           run_as_non_root = false
         }
@@ -77,7 +76,9 @@ resource "kubernetes_deployment" "deployment" {
           for_each = var.volume_specs
           content {
             name = lookup(volume.value, "name", null)
-            empty_dir {}
+            host_path {
+              path = lookup(volume.value, "path", null)
+            }
           }
         }
       }

@@ -33,4 +33,4 @@ for row in $(cat $CONFIG_PATH | jq -r '.[] | @base64'); do
 done
 
 cd "$KDT_WORKDIR/infrastructures"
-# cdktf get
+cdktf get

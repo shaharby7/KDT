@@ -6,13 +6,13 @@
   "license": "MPL-2.0",
   "private": true,
   "scripts": {
-    "prepare": "sudo npm i -g cdktf-cli && sudo  apt install jq  && sudo chmod -R +x ./scripts && npm run set-env",
+    "prepare": "sudo npm i -g cdktf-cli && sudo  apt install jq  && npm run set-env",
     "set-env": "./scripts/set-env.sh",
     "build": "ts-node ./scripts/build.ts -r ./tsconfig.json",
     "deploy": "./scripts/deploy.sh",
     "destroy": "./scripts/destroy.sh",
-    "minikube:reset": "minikube delete && minikube start && rm infrastructures/terraform.local.tfstate && infrastructures/terraform.local.tfstate.backup",
-    "minikube:mount": "minikube mount $HOME/minikiume-mount:/host"
+    "minikube:reset": "./scripts/minikube/minikube-reset.sh",
+    "minikube:mount": "./scripts/minikube/minikube-mount.sh"
   },
   "engines": {
     "node": ">=14.0"

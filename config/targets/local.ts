@@ -8,7 +8,7 @@ const config: TargetConfig = {
   kaspad_version: "v0.12.7",
   components: [
     {
-      name: "dnsseeder",
+      name: "dnsseeder",  
       version: "v0.11.0",
       extra_build_args: {},
       units: 1,
@@ -82,6 +82,6 @@ const config: TargetConfig = {
       },
     },
   ],
-};
+};  
 
 export default config;
