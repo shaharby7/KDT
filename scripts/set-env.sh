@@ -18,6 +18,7 @@ for row in $(cat $CONFIG_PATH | jq -r '.[] | @base64'); do
     _jq() {
         echo ${row} | base64 --decode | jq -r ${1}
     }
+    if []
     clone_if_not_exist $(_jq '.name') $(_jq '.git')
 done
 

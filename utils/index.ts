@@ -10,9 +10,14 @@ import fs from "fs";
 import path from "path";
 import { spawn } from "child_process";
 
-const componentsConfigPath = path.resolve(__dirname, "../config/componentsGlobalInfo.json");
+const CONFIG_PATH = path.resolve(__dirname, "../config");
+const COMPONENT_GLOBAL_INFO_PATH = path.resolve(
+  CONFIG_PATH,
+  "componentsGlobalInfo.json"
+);
+const TARGETS_CONFIGS_PATH = path.resolve(CONFIG_PATH, "targets");
 const componentsConfig: ComponentGlobalInfo[] = JSON.parse(
-  fs.readFileSync(componentsConfigPath, "utf-8")
+  fs.readFileSync(COMPONENT_GLOBAL_INFO_PATH, "utf-8")
 );
 
 export const getTarget = (): Targets => {
@@ -82,3 +87,7 @@ export const spawnChildAsPromise = async (
   }
   return data;
 };
+
+export function listTargets(): string[] {
+  return fs.readdirSync(TARGETS_CONFIGS_PATH).map((file) => file.split(".")[0]);
+}

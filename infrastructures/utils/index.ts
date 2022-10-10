@@ -1,16 +1,16 @@
 import { TargetComponentConfig } from "../../types/TargetConfig";
 import { DeploymentSpecTemplateSpecContainer } from "../.gen/providers/kubernetes/deployment-structs/structs0";
-import { Component } from "../modules/Component";
 import _ from "lodash";
 import { env } from "../../env";
 import { TerraformHclModule } from "cdktf";
 import { ServiceSpecPort } from "../.gen/providers/kubernetes";
 
 export const generateContainerSpecs = (
-  deployedComponents: { [componentName: string]: TerraformHclModule },
+  deployedComponents: { [componentName: string]: TerraformHclModule[] },
   targetComponentConfig: TargetComponentConfig
 ): DeploymentSpecTemplateSpecContainer => {
-  const containerConfig = targetComponentConfig.generateContainerConfig(deployedComponents);
+  const containerConfig =
+    targetComponentConfig.generateContainerConfig(deployedComponents);
   let containerSpecs = {
     ...containerConfig,
     name: targetComponentConfig.name,
@@ -23,10 +23,11 @@ export const generateContainerSpecs = (
 };
 
 export const generateVolumeSpecs = (
-  deployedComponents: { [componentName: string]: TerraformHclModule },
+  deployedComponents: { [componentName: string]: TerraformHclModule[] },
   targetComponentConfig: TargetComponentConfig
 ): { name: string; path: string } => {
-  const containerConfig = targetComponentConfig.generateContainerConfig(deployedComponents);
+  const containerConfig =
+    targetComponentConfig.generateContainerConfig(deployedComponents);
 
   return (containerConfig.volume_mount || []).map(
     (volumeMount: { name: string; mount_path: string }) => ({
@@ -46,7 +47,7 @@ export const generateImagName = (name: string, version: string): string => {
 };
 
 export const generateServiceSpecPorts = (
-  deployedComponents: { [componentName: string]: TerraformHclModule },
+  deployedComponents: { [componentName: string]: TerraformHclModule[] },
   targetComponentConfig: TargetComponentConfig
 ): ServiceSpecPort[] => {
   let serviceSpecPorts = targetComponentConfig
@@ -56,3 +57,27 @@ export const generateServiceSpecPorts = (
     });
   return serviceSpecPorts;
 };
+
+export function generateComponentVariables(
+  componentConfig: TargetComponentConfig,
+  unit: number,
+  target: string,
+  appliedComponents: { [key: string]: TerraformHclModule[] }
+) {
+  const componentName =
+    componentConfig.units > 0
+      ? `${componentConfig.name}-${unit}`
+      : componentConfig.name;
+  const variables = {
+    name: componentName,
+    namespace: target,
+    replicas: componentConfig.replicas,
+    container_specs: generateContainerSpecs(appliedComponents, componentConfig),
+    service_ports_specs: generateServiceSpecPorts(
+      appliedComponents,
+      componentConfig
+    ),
+    volume_specs: generateVolumeSpecs(appliedComponents, componentConfig),
+  };
+  return { componentName, variables };
+}

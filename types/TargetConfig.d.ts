@@ -12,9 +12,10 @@ export type TargetComponentConfig = {
   extra_build_args?: {
     [key: string]: string;
   };
+  units: number;
   replicas: number;
   generateContainerConfig: (others: {
-    [componentName: string]: TerraformHclModule;
+    [componentName: string]: TerraformHclModule[];
   }) => any;
 };
 

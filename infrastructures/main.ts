@@ -6,22 +6,20 @@ import { DockerProvider } from "./.gen/providers/docker";
 
 import { loadEnv, env } from "../env";
 
-import type { TargetConfig } from "../types/TargetConfig";
-import { Targets } from "../types/Targets.enum";
-import { getTargetConfig } from "../utils";
-import {
-  generateContainerSpecs,
-  generateServiceSpecPorts,
-  generateVolumeSpecs,
-} from "./utils";
-import { Component } from "./modules/Component";
+import type {
+  TargetConfig,
+} from "../types/TargetConfig";
+import { getTargetConfig, listTargets } from "../utils";
+import { generateComponentVariables } from "./utils";
+
+import _ from "lodash";
 
 loadEnv();
 
 class KaspaStack extends TerraformStack {
   config: TargetConfig;
-  constructor(scope: Construct, name: string, config: TargetConfig) {
-    super(scope, name);
+  constructor(scope: Construct, target: string, config: TargetConfig) {
+    super(scope, target);
     this.config = config;
 
     const k8sProvider = new KubernetesProvider(this, "k8s", {
@@ -41,46 +39,39 @@ class KaspaStack extends TerraformStack {
 
     new Namespace(this, "target-namespace", {
       metadata: {
-        name: name,
+        name: target,
       },
     });
 
-    let appliedComponents: { [key: string]: TerraformHclModule } = {};
+    let appliedComponents: { [key: string]: TerraformHclModule[] } = {};
     for (const componentConfig of this.config.components) {
-      const variables = {
-        name: componentConfig.name,
-        namespace: name,
-        replicas: componentConfig.replicas,
-        container_specs: generateContainerSpecs(
-          appliedComponents,
-          componentConfig
-        ),
-        service_ports_specs: generateServiceSpecPorts(
-          appliedComponents,
-          componentConfig
-        ),
-        volume_specs: generateVolumeSpecs(appliedComponents, componentConfig),
-      };
-      appliedComponents[componentConfig.name] = new TerraformHclModule(
-        this,
-        componentConfig.name,
-        {
-          source: "./modules/Component",
-          variables,
-          providers: [k8sProvider, dockerProvider],
-        }
-      );
+      appliedComponents[componentConfig.name] = [];
+      for (const unit of _.range(componentConfig.units)) {
+        const { componentName, variables } = generateComponentVariables(
+          componentConfig,
+          unit,
+          target,
+          appliedComponents
+        );
+        appliedComponents[componentConfig.name][unit] = new TerraformHclModule(
+          this,
+          componentName,
+          {
+            source: "./modules/Component",
+            variables,
+            providers: [k8sProvider, dockerProvider],
+          }
+        );
+      }
     }
   }
 }
 
 const main = async (): Promise<void> => {
   const app = new App();
-  // for (const target of Object.keys(Targets)) {
-  //   new KaspaStack(app, target, await getTargetConfig(target));
-  // }
-  let target = "local";
-  new KaspaStack(app, target, await getTargetConfig(target));
+  for (const target of listTargets()) {
+    new KaspaStack(app, target, await getTargetConfig(target));
+  }
   app.synth();
 };
 

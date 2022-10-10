@@ -11,6 +11,7 @@ const config: TargetConfig = {
       name: "dnsseeder",
       version: "v0.11.0",
       extra_build_args: {},
+      units: 1,
       replicas: 1,
       generateContainerConfig: (_others) => {
         const componentConfig: ContainerConfig = {
@@ -47,6 +48,7 @@ const config: TargetConfig = {
       name: "kaspad",
       version: "v0.12.7",
       extra_build_args: {},
+      units: 5,
       replicas: 1,
       generateContainerConfig: (others) => {
         const componentConfig: ContainerConfig = {
@@ -65,7 +67,7 @@ const config: TargetConfig = {
             "--devnet",
             "--rpclisten=0.0.0.0:16610",
             "--loglevel=debug",
-            `--grpcseed=${others["dnsseeder"].get(
+            `--grpcseed=${others["dnsseeder"][0].get(
               "service.spec[0].cluster_ip"
             )}:17100`,
             "--profile=1024",
