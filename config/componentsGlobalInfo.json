@@ -1,7 +1,7 @@
 [
     {
         "name": "kaspad",
-        "git": "https://github.com/kaspanet/kaspad.git",
+        "path": "/home/shahar/Personal/kaspad",
         "Dockerfile": "docker/Dockerfile"
     },
     {
