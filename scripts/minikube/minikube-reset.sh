@@ -1,1 +1,1 @@
-minikube delete && minikube start && rm infrastructures/terraform.local.tfstate && infrastructures/terraform.local.tfstate.backup
+minikube delete && minikube start && rm -f infrastructures/terraform.local.tfstate && rm -f infrastructures/terraform.local.tfstate.backup

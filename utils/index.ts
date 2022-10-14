@@ -59,7 +59,7 @@ export const getComponentGlobalInfo = (
   );
   if (componentGlobalInfo) {
     return componentGlobalInfo;
-  } else throw new Error("no component global info found");
+  } else throw new Error(`no component global info found for '${componentName}'`);
 };
 
 export const spawnChildAsPromise = async (
