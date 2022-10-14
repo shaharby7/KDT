@@ -7,10 +7,13 @@ import { ServiceSpecPort } from "../.gen/providers/kubernetes";
 
 export const generateContainerSpecs = (
   deployedComponents: { [componentName: string]: TerraformHclModule[] },
-  targetComponentConfig: TargetComponentConfig
+  targetComponentConfig: TargetComponentConfig,
+  unitIndex: number
 ): DeploymentSpecTemplateSpecContainer => {
-  const containerConfig =
-    targetComponentConfig.generateContainerConfig(deployedComponents);
+  const containerConfig = targetComponentConfig.generateContainerConfig(
+    deployedComponents,
+    unitIndex
+  );
   let containerSpecs = {
     ...containerConfig,
     name: targetComponentConfig.name,
@@ -25,11 +28,13 @@ export const generateContainerSpecs = (
 export const generateVolumeSpecs = (
   deployedComponents: { [componentName: string]: TerraformHclModule[] },
   targetComponentConfig: TargetComponentConfig,
+  unitIndex: number,
   componentName: string
 ): { name: string; path: string } => {
-  const containerConfig =
-    targetComponentConfig.generateContainerConfig(deployedComponents);
-
+  const containerConfig = targetComponentConfig.generateContainerConfig(
+    deployedComponents,
+    unitIndex
+  );
   return (containerConfig.volume_mount || []).map(
     (volumeMount: { name: string; mount_path: string }) => ({
       name: volumeMount.name,
@@ -49,38 +54,46 @@ export const generateImagName = (name: string, version: string): string => {
 
 export const generateServiceSpecPorts = (
   deployedComponents: { [componentName: string]: TerraformHclModule[] },
-  targetComponentConfig: TargetComponentConfig
+  targetComponentConfig: TargetComponentConfig,
+  unitIndex: number
 ): ServiceSpecPort[] => {
-  let serviceSpecPorts = targetComponentConfig
-    .generateContainerConfig(deployedComponents)
-    .port.map((port: any) => {
-      return { target_port: port.container_port };
-    });
+  let serviceSpecPorts = (
+    targetComponentConfig.generateContainerConfig(deployedComponents, unitIndex)
+      .port || []
+  ).map((port: any) => {
+    return { target_port: port.container_port };
+  });
   return serviceSpecPorts;
 };
 
 export function generateComponentVariables(
   componentConfig: TargetComponentConfig,
-  unit: number,
+  unitIndex: number,
   target: string,
   appliedComponents: { [key: string]: TerraformHclModule[] }
 ) {
   const componentName =
     componentConfig.units > 0
-      ? `${componentConfig.name}-${unit}`
+      ? `${componentConfig.name}-${unitIndex}`
       : componentConfig.name;
   const variables = {
     name: componentName,
     namespace: target,
     replicas: componentConfig.replicas,
-    container_specs: generateContainerSpecs(appliedComponents, componentConfig),
+    container_specs: generateContainerSpecs(
+      appliedComponents,
+      componentConfig,
+      unitIndex
+    ),
     service_ports_specs: generateServiceSpecPorts(
       appliedComponents,
-      componentConfig
+      componentConfig,
+      unitIndex
     ),
     volume_specs: generateVolumeSpecs(
       appliedComponents,
       componentConfig,
+      unitIndex,
       componentName
     ),
   };

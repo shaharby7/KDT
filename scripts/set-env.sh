@@ -6,7 +6,6 @@ function clone_if_not_exist() {
     KASPA_REPOS_DIR="$KDT_WORKDIR/kaspa-repos"
     COMPONENT_EXPECTED_DIR="$KASPA_REPOS_DIR/$1"
     if [ ! -d $COMPONENT_EXPECTED_DIR ]; then
-        cd KASPA_REPOS_DIR
         sudo -u $USER git clone $2 $COMPONENT_EXPECTED_DIR
     fi
 }

@@ -4,9 +4,11 @@
     "dnsseeder",
     "grpcseed",
     "kaspad",
+    "kaspaminer",
     "kreuzwerker",
     "loglevel",
     "rpclisten",
+    "rpcserver",
     "shaharby"
   ],
   "conventionalCommits.scopes": [

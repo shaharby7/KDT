@@ -46,14 +46,14 @@ class KaspaStack extends TerraformStack {
     let appliedComponents: { [key: string]: TerraformHclModule[] } = {};
     for (const componentConfig of this.config.components) {
       appliedComponents[componentConfig.name] = [];
-      for (const unit of _.range(componentConfig.units)) {
+      for (const unitIndex of _.range(componentConfig.units)) {
         const { componentName, variables } = generateComponentVariables(
           componentConfig,
-          unit,
+          unitIndex,
           target,
           appliedComponents
         );
-        appliedComponents[componentConfig.name][unit] = new TerraformHclModule(
+        appliedComponents[componentConfig.name][unitIndex] = new TerraformHclModule(
           this,
           componentName,
           {

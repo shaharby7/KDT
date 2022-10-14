@@ -65,9 +65,7 @@ const config: TargetConfig = {
             "--nameserver",
             "ns-shahar.daglabs-dev.com",
             "--default-seeder",
-            _others["kaspad-for-seeder"][0].get(
-              "service.spec[0].cluster_ip"
-            ),
+            _others["kaspad-for-seeder"][0].get("service.spec[0].cluster_ip"),
             "--devnet",
             "--profile=6063",
             "--grpclisten=0.0.0.0:17100",
@@ -113,6 +111,39 @@ const config: TargetConfig = {
             { container_port: 1024 },
             { container_port: 16610 },
             { container_port: 16611 },
+          ],
+        };
+        return componentConfig;
+      },
+    },
+    {
+      name: "kaspaminer",
+      version: "v0.12.7",
+      extra_build_args: {},
+      units: 5,
+      replicas: 1,
+      generateContainerConfig: (others, unitIndex) => {
+        const componentConfig: ContainerConfig = {
+          volume_mount: [
+            {
+              mount_path: "/root/.kaspad",
+              name: "kaspad",
+            },
+            {
+              mount_path: "/root/.kaspaminer",
+              name: "kaspaminer",
+            },
+          ],
+          command: ["/app/kaspaminer"],
+          args: [
+            "--devnet",
+            `--rpcserver==${others["kaspad"][unitIndex].get(
+              "service.spec[0].cluster_ip"
+            )}`,
+            "--miningaddr=kaspadev:qqm623fpmjv7ztq702udymaw5j64hty5qwgslv85fwaherrxhr5aslq23qyau"
+          ],
+          port: [
+            { container_port: 16210 },
           ],
         };
         return componentConfig;

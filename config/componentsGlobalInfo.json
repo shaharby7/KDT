@@ -13,5 +13,10 @@
         "name": "dnsseeder",
         "git": "https://github.com/kaspanet/dnsseeder.git",
         "Dockerfile": "docker/Dockerfile"
+    },
+    {
+        "name": "kaspaminer",
+        "git": "https://github.com/kaspanet/kaspad.git",
+        "Dockerfile": "cmd/kaspaminer/docker/Dockerfile"
     }
 ]
