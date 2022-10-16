@@ -16,7 +16,8 @@
     "cdktf",
     "boilerplate",
     "build",
-    "deploy"
+    "deploy",
+    "network"
   ],
   "eslint.workingDirectories": [""]
 }

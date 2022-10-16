@@ -4,8 +4,11 @@ cd "$KDT_WORKDIR/infrastructures"
 
 for i in "$@"; do
     case $i in
+    -y)
+        AUTO_APPROVE="--auto-approve"
+        ;;
     target=*)
-        target="${i#*=}"
+        TARGET="${i#*=}"
         shift
         ;;
     -* | --*)
@@ -17,11 +20,6 @@ for i in "$@"; do
     esac
 done
 
-echo "TARGET  = ${target}"
-
-if [[ -n $1 ]]; then
-    echo "Last line of file specified as non-opt/last argument:"
-    tail -1 $1
-fi
-
-cdktf destroy $target
+export command="cdktf destroy $TARGET $AUTO_APPROVE"
+echo $command
+eval $command
