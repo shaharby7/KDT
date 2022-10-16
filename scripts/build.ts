@@ -13,6 +13,11 @@ import { TargetComponentConfig } from "../types/TargetConfig";
 loadEnv();
 
 const main = async (): Promise<void> => {
+  await spawnChildAsPromise(
+    `set-env.sh`,
+    path.resolve(__dirname, "./set-env.sh"),
+    []
+  );
   const targetConfig = await getTargetConfig();
   const effectedComponents = getEffectedComponents(targetConfig);
   for (const component of effectedComponents) {

@@ -69,7 +69,7 @@ resource "kubernetes_deployment" "deployment" {
           }
         }
         security_context {
-          run_as_user     = 0 //run as user
+          run_as_user     = 0 //run as user root
           run_as_non_root = false
         }
         dynamic "volume" {

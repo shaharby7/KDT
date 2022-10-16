@@ -1,0 +1,326 @@
+{
+    "request": {
+        "url": "https://book-api.hyperguest.com/booking/amend",
+        "body": {
+            "amadeusMetadata": {
+                "amadeusExternalID": "208449832",
+                "amadeusInternalID": "1300434105"
+            },
+            "status": "Confirmed",
+            "type": "amend",
+            "dates": {
+                "from": "2022-12-14",
+                "to": "2022-12-16"
+            },
+            "hotelId": 37169,
+            "leadGuest": {
+                "birthDate": "1970-01-01",
+                "contact": {
+                    "address": "SALVADOR DE MADARIAGA, 1",
+                    "city": "SPAIN",
+                    "country": "FR",
+                    "email": "invalidOrEmpty@example.com",
+                    "phone": "N/A",
+                    "state": "N/A",
+                    "zip": "N/A"
+                },
+                "name": {
+                    "first": "CHANGETEST",
+                    "last": "AMADEUSNAMECHANGE"
+                },
+                "title": "MR"
+            },
+            "reference": {
+                "agency": "208449832"
+            },
+            "paymentAmount": {
+                "amount": 20000,
+                "currency": "EUR"
+            },
+            "creditCard": {
+                "number": "****************",
+                "cvv": "000",
+                "expiry": {
+                    "month": "12",
+                    "year": "2029"
+                },
+                "name": {
+                    "first": "CHANGETEST",
+                    "last": "AMADEUSNAMECHANGE"
+                }
+            },
+            "bookingId": 153507,
+            "rooms": [
+                {
+                    "roomCode": "ROOM-01",
+                    "rateCode": "BAR",
+                    "expectedPrice": {
+                        "amount": "20000.00",
+                        "currency": "EUR"
+                    },
+                    "specialRequests": [
+                        "ROOM ON 5TH FLOOR"
+                    ],
+                    "itemId": 47444,
+                    "guests": [
+                        {
+                            "birthDate": "1970-01-01",
+                            "contact": {
+                                "address": "SALVADOR DE MADARIAGA, 1",
+                                "city": "SPAIN",
+                                "country": "FR",
+                                "email": "invalidOrEmpty@example.com",
+                                "phone": "N/A",
+                                "state": "N/A",
+                                "zip": "N/A"
+                            },
+                            "name": {
+                                "first": "CHANGETEST",
+                                "last": "AMADEUSNAMECHANGE"
+                            },
+                            "title": "MR",
+                            "guestId": 129158
+                        }
+                    ]
+                }
+            ],
+            "meta": [
+                {
+                    "key": "_AmadeusCompanyInfo",
+                    "value": {
+                        "CompanyName": {
+                            "Code": "11111111",
+                            "CodeContext": "IATA",
+                            "FullName": "AMADEUS LINKHOTEL"
+                        },
+                        "AddressInfo": {
+                            "AddressLine": [
+                                "SALVADOR DE MADARIAGA, 1",
+                                "28027 MADRID"
+                            ],
+                            "CityName": "SPAIN",
+                            "CountryName": "FRANCE"
+                        },
+                        "TelephoneInfo": {
+                            "PhoneLocationType": "7",
+                            "PhoneNumber": "34911771877",
+                            "PhoneTechType": "1"
+                        }
+                    }
+                }
+            ]
+        },
+        "config": {
+            "headers": {
+                "Authorization": "Bearer 2efb35ad56b74e9b9070fba525038985",
+                "Content-Type": "application/json"
+            }
+        }
+    },
+    "response": {
+        "status": 200,
+        "body": {
+            "content": {
+                "status": "Confirmed",
+                "dates": {
+                    "from": "2022-12-14",
+                    "to": "2022-12-16"
+                },
+                "meta": [
+                    {
+                        "key": "_AmadeusCompanyInfo",
+                        "value": {
+                            "AddressInfo": {
+                                "CityName": "SPAIN",
+                                "AddressLine": [
+                                    "SALVADOR DE MADARIAGA, 1",
+                                    "28027 MADRID"
+                                ],
+                                "CountryName": "FRANCE"
+                            },
+                            "CompanyName": {
+                                "Code": "11111111",
+                                "FullName": "AMADEUS LINKHOTEL",
+                                "CodeContext": "IATA"
+                            },
+                            "TelephoneInfo": {
+                                "PhoneNumber": "34911771877",
+                                "PhoneTechType": "1",
+                                "PhoneLocationType": "7"
+                            }
+                        }
+                    }
+                ],
+                "rooms": [
+                    {
+                        "cancellationPolicy": [
+                            {
+                                "policyId": 189264,
+                                "startDate": "2022-10-13",
+                                "endDate": "2022-11-18",
+                                "price": {
+                                    "amount": 0,
+                                    "currency": "EUR"
+                                }
+                            },
+                            {
+                                "policyId": 189265,
+                                "startDate": "2022-11-18",
+                                "endDate": "2022-11-19",
+                                "price": {
+                                    "amount": 10000,
+                                    "currency": "EUR"
+                                }
+                            },
+                            {
+                                "policyId": 189266,
+                                "startDate": "2022-11-19",
+                                "endDate": "2022-11-19",
+                                "price": {
+                                    "amount": 10000,
+                                    "currency": "EUR"
+                                }
+                            }
+                        ],
+                        "guests": [
+                            {
+                                "guestId": 129158,
+                                "birthDate": "1970-01-01",
+                                "name": {
+                                    "first": "CHANGETEST",
+                                    "last": "AMADEUSNAMECHANGE"
+                                },
+                                "contact": {
+                                    "address": "SALVADOR DE MADARIAGA, 1",
+                                    "city": "SPAIN",
+                                    "country": "FR",
+                                    "nationality": "FR",
+                                    "email": "invalidOrEmpty@example.com",
+                                    "phone": "N/A",
+                                    "state": "N/A",
+                                    "zip": "N/A"
+                                },
+                                "title": "MR",
+                                "age": 52
+                            }
+                        ],
+                        "specialRequests": [],
+                        "remarks": [],
+                        "reference": {
+                            "hotel": "153507"
+                        },
+                        "itemId": 47444,
+                        "roomId": 90665,
+                        "ratePlanId": 99813,
+                        "roomCode": "ROOM-01",
+                        "rateCode": "BAR",
+                        "status": "Confirmed",
+                        "board": "BB",
+                        "hotelId": 37169,
+                        "price": {
+                            "amount": 10000,
+                            "currency": "EUR"
+                        },
+                        "netPrice": {
+                            "amount": 8400,
+                            "currency": "EUR"
+                        },
+                        "nightly": [
+                            [
+                                {
+                                    "date": "2022-11-19",
+                                    "type": "base",
+                                    "price": {
+                                        "amount": 10000,
+                                        "currency": "EUR"
+                                    },
+                                    "netPrice": {
+                                        "amount": 8400,
+                                        "currency": "EUR"
+                                    }
+                                },
+                                {
+                                    "date": "2022-11-19",
+                                    "type": "commission",
+                                    "price": {
+                                        "amount": 1600,
+                                        "currency": "EUR"
+                                    },
+                                    "netPrice": {
+                                        "amount": 1600,
+                                        "currency": "EUR"
+                                    }
+                                },
+                                {
+                                    "date": "2022-11-19",
+                                    "type": "bar",
+                                    "price": {
+                                        "amount": 10000,
+                                        "currency": "EUR"
+                                    },
+                                    "netPrice": {
+                                        "amount": 10000,
+                                        "currency": "EUR"
+                                    }
+                                },
+                                {
+                                    "date": "2022-11-19",
+                                    "type": "tax",
+                                    "price": {
+                                        "amount": 909.09,
+                                        "currency": "EUR"
+                                    },
+                                    "netPrice": {
+                                        "amount": 763.64,
+                                        "currency": "EUR"
+                                    },
+                                    "relation": "included"
+                                },
+                                {
+                                    "date": "2022-11-19",
+                                    "type": "tax",
+                                    "price": {
+                                        "amount": 2200,
+                                        "currency": "EUR"
+                                    },
+                                    "netPrice": {
+                                        "amount": 0,
+                                        "currency": "EUR"
+                                    },
+                                    "relation": "included"
+                                }
+                            ]
+                        ]
+                    }
+                ],
+                "bookingId": 153507,
+                "reference": {
+                    "agency": "208449832"
+                },
+                "leadGuest": {
+                    "guestId": 129159,
+                    "birthDate": "1970-01-01",
+                    "name": {
+                        "first": "CHANGETEST",
+                        "last": "AMADEUSNAMECHANGE"
+                    },
+                    "contact": {
+                        "address": "SALVADOR DE MADARIAGA, 1",
+                        "city": "SPAIN",
+                        "country": "FR",
+                        "nationality": "FR",
+                        "email": "invalidOrEmpty@example.com",
+                        "phone": "N/A",
+                        "state": "N/A",
+                        "zip": "N/A"
+                    },
+                    "title": "MR",
+                    "age": 52
+                },
+                "transactions": [],
+                "hotelId": 37169
+            },
+            "timestamp": "2022-10-13T11:46:02.392Z"
+        }
+    }
+}

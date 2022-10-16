@@ -137,14 +137,11 @@ const config: TargetConfig = {
           command: ["/app/kaspaminer"],
           args: [
             "--devnet",
-            `--rpcserver==${others["kaspad"][unitIndex].get(
-              "service.spec[0].cluster_ip"
-            )}`,
-            "--miningaddr=kaspadev:qqm623fpmjv7ztq702udymaw5j64hty5qwgslv85fwaherrxhr5aslq23qyau"
+            `--rpcserver=kaspad-${unitIndex}.local.svc.cluster.local`,
+            "--miningaddr=kaspadev:qqm623fpmjv7ztq702udymaw5j64hty5qwgslv85fwaherrxhr5aslq23qyau",
+            "--mine-when-not-synced",
           ],
-          port: [
-            { container_port: 16210 },
-          ],
+          port: [{ container_port: 16210 }],
         };
         return componentConfig;
       },
