@@ -106,6 +106,7 @@ const config: TargetConfig = {
               "service.spec[0].cluster_ip"
             )}:17100`,
             "--profile=1024",
+            "--allow-submit-block-when-not-synced",
           ],
           port: [
             { container_port: 1024 },
