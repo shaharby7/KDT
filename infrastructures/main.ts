@@ -6,9 +6,7 @@ import { DockerProvider } from "./.gen/providers/docker";
 
 import { loadEnv, env } from "../env";
 
-import type {
-  TargetConfig,
-} from "../types/TargetConfig";
+import type { TargetConfig } from "../types/TargetConfig";
 import { getTargetConfig, listTargets } from "../utils";
 import { generateComponentVariables } from "./utils";
 
@@ -37,7 +35,7 @@ class KaspaStack extends TerraformStack {
       ],
     });
 
-    new Namespace(this, "target-namespace", {
+    let namespace = new Namespace(this, "target-namespace", {
       metadata: {
         name: target,
       },
@@ -51,17 +49,15 @@ class KaspaStack extends TerraformStack {
           componentConfig,
           unitIndex,
           target,
-          appliedComponents
+          appliedComponents,
+          [namespace]
         );
-        appliedComponents[componentConfig.name][unitIndex] = new TerraformHclModule(
-          this,
-          componentName,
-          {
+        appliedComponents[componentConfig.name][unitIndex] =
+          new TerraformHclModule(this, componentName, {
             source: "./modules/Component",
             variables,
             providers: [k8sProvider, dockerProvider],
-          }
-        );
+          });
       }
     }
   }

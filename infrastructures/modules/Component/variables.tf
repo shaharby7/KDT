@@ -63,3 +63,8 @@ variable "volume_specs" {
   }))
   default = []
 }
+
+variable "dependencies" {
+  type    = list(string)
+  default = []
+}

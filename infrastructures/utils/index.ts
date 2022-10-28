@@ -4,6 +4,7 @@ import _ from "lodash";
 import { env } from "../../env";
 import { TerraformHclModule } from "cdktf";
 import { ServiceSpecPort } from "../.gen/providers/kubernetes";
+import cdktf from "cdktf";
 
 export const generateContainerSpecs = (
   deployedComponents: { [componentName: string]: TerraformHclModule[] },
@@ -70,7 +71,8 @@ export function generateComponentVariables(
   componentConfig: TargetComponentConfig,
   unitIndex: number,
   target: string,
-  appliedComponents: { [key: string]: TerraformHclModule[] }
+  appliedComponents: { [key: string]: TerraformHclModule[] },
+  dependenciesModules: cdktf.TerraformResource[]
 ) {
   const componentName =
     componentConfig.units > 0
@@ -95,6 +97,9 @@ export function generateComponentVariables(
       componentConfig,
       unitIndex,
       componentName
+    ),
+    dependencies: dependenciesModules.map((dep) =>
+      dep.getNumberAttribute("id")
     ),
   };
   return { componentName, variables };
