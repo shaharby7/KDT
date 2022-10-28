@@ -35,10 +35,12 @@ class KaspaStack extends TerraformStack {
       ],
     });
 
-    let namespace = new Namespace(this, "target-namespace", {
-      metadata: {
-        name: target,
+    const base = new TerraformHclModule(this, "base", {
+      source: "./modules/Base",
+      variables: {
+        namespace_name: target,
       },
+      providers: [k8sProvider],
     });
 
     let appliedComponents: { [key: string]: TerraformHclModule[] } = {};
@@ -49,13 +51,12 @@ class KaspaStack extends TerraformStack {
           componentConfig,
           unitIndex,
           target,
-          appliedComponents,
-          [namespace]
+          appliedComponents
         );
         appliedComponents[componentConfig.name][unitIndex] =
           new TerraformHclModule(this, componentName, {
             source: "./modules/Component",
-            variables,
+            variables: { base: base.toTerraform(), ...variables },
             providers: [k8sProvider, dockerProvider],
           });
       }

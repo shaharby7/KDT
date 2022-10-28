@@ -71,8 +71,7 @@ export function generateComponentVariables(
   componentConfig: TargetComponentConfig,
   unitIndex: number,
   target: string,
-  appliedComponents: { [key: string]: TerraformHclModule[] },
-  dependenciesModules: cdktf.TerraformResource[]
+  appliedComponents: { [key: string]: TerraformHclModule[] }
 ) {
   const componentName =
     componentConfig.units > 0
@@ -98,9 +97,7 @@ export function generateComponentVariables(
       unitIndex,
       componentName
     ),
-    dependencies: dependenciesModules.map((dep) =>
-      dep.getNumberAttribute("id")
-    ),
+    
   };
   return { componentName, variables };
 }

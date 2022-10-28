@@ -68,3 +68,7 @@ variable "dependencies" {
   type    = list(string)
   default = []
 }
+
+variable "base" {
+  type = any
+}

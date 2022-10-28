@@ -84,6 +84,9 @@ resource "kubernetes_deployment" "deployment" {
       }
     }
   }
+   depends_on = [
+    # var.base
+  ]
 }
 
 
@@ -107,4 +110,8 @@ resource "kubernetes_service" "service" {
       }
     }
   }
+
+  depends_on = [
+    # var.base
+  ]
 }
